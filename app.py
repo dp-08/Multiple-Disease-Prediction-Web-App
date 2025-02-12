@@ -23,11 +23,12 @@ if disease_option == "Diabetes":
     dpf = st.number_input("Diabetes Pedigree Function", 0.0, 2.5, 0.5)
     age = st.number_input("Age", 0, 120, 30)
     
-    if st.button("Predict Diabetes"):
-        data = np.array([[glucose, bp, bmi, dpf, age]])
-        result = diabetes_model.predict(data)
-        st.success("Diabetes Prediction: " + ("Positive" if result[0] == 1 else "Negative"))
-
+   if st.button("Predict Diabetes"):
+        data = np.array([[glucose, bp, bmi, dpf, age]]) 
+        prob = diabetes_model.predict_proba(data)[:, 1] 
+        threshold = 0.85 
+        result = 1 if prob[0] > threshold else 0
+        st.success("Diabetes Prediction: " + ("Positive" if result == 1 else "Negative"))
 # Heart Disease Prediction
 elif disease_option == "Heart Disease":
     st.header("Heart Disease Prediction")
